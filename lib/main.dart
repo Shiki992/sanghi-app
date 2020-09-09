@@ -18,13 +18,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sanghi Puja App',
       theme: ThemeData(
         primarySwatch: Colors.red,
         secondaryHeaderColor: Colors.redAccent[400],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Splash(),
+        debugShowCheckedModeBanner: false,
         routes: Routes
     );
   }

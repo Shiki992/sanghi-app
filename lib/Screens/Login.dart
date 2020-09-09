@@ -111,24 +111,6 @@ class _LoginState extends State<Login> {
     return 'Please Check your email';
   }
 
-  void Handler(String val) {
-    setState(() {
-      radval = val;
-      switch (radval) {
-        case "Patient":
-          {
-            type = 'Patient';
-            break;
-          }
-        case "Doctor":
-          {
-            type = 'Doctor';
-            break;
-          }
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,20 +174,16 @@ class _LoginState extends State<Login> {
                                         width: 265,
                                         child: TextFormField(
                                           decoration: InputDecoration(
-                                              labelText: 'User Id',
+                                              labelText: 'Name',
                                               labelStyle: TextStyle(color: Colors.red[800]),
                                               icon: Icon(
                                                 Icons.person_outline,
                                                 color: Colors.black,
                                               )),
                                           validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Please enter the User ID.';
-                                            } else if (!value.contains("@")) {
-                                              return 'Please enter a valid User ID';
-                                            } else {
-                                              userid = value;
-                                            }
+                                            if(value.isEmpty){return 'Please enter a Name.';}
+                                            else{userid = value;}
+
                                           },
                                         ),
                                       ),
@@ -232,29 +210,57 @@ class _LoginState extends State<Login> {
                                       Container(
                                         width: 265,
                                         child: TextFormField(
-                                          obscureText: true,
+                                          keyboardType: TextInputType.phone,
                                           decoration: InputDecoration(
-                                              labelText: 'Password',
+                                              labelText: 'Phone number',
                                               labelStyle: TextStyle(color: Colors.red[800]),
                                               icon: Icon(
-                                                Icons.vpn_key,
+                                                Icons.phone,
                                                 color: Colors.black,
                                               )),
                                           validator: (value) {
                                             if (value.isEmpty) {
-                                              return 'Please enter the Password.';
-                                            } else if (value.length < 6 ||
-                                                (!value.contains("0") &&
-                                                    !value.contains("1") &&
-                                                    !value.contains("2") &&
-                                                    !value.contains("3") &&
-                                                    !value.contains("4") &&
-                                                    !value.contains("5") &&
-                                                    !value.contains("6") &&
-                                                    !value.contains("7") &&
-                                                    !value.contains("8") &&
-                                                    !value.contains("9"))) {
-                                              return 'please enter a valid password with at least one number and greater than 6 characters';
+                                              return 'Please enter a valid phone number.';
+                                            } else {
+                                              password = value;
+                                            }
+                                          },
+                                        ),
+
+//                                      Container(height: 50,decoration: BoxDecoration(), child: TextFormField())
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: 300,
+                                  decoration:
+                                  BoxDecoration(color: Colors.red[200], borderRadius: BorderRadius.circular(40)),
+//                                  color: Colors.red[200],
+//                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),side: BorderSide(color: Colors.red[800])),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 15),
+                                      ),
+                                      Container(
+                                        width: 265,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.emailAddress,
+                                          decoration: InputDecoration(
+                                              labelText: 'Email ID',
+                                              labelStyle: TextStyle(color: Colors.red[800]),
+                                              icon: Icon(
+                                                Icons.alternate_email,
+                                                color: Colors.black,
+                                              )),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Please enter a valid phone number.';
                                             } else {
                                               password = value;
                                             }
@@ -271,16 +277,18 @@ class _LoginState extends State<Login> {
                                 ),
                                 RaisedButton(
                                   shape: RoundedRectangleBorder(
-                                      side: BorderSide(width: 2, color: Colors.white, style: BorderStyle.solid),
-                                      borderRadius: BorderRadius.circular(70)),
+                                      side: BorderSide(width: 2, color: Colors.white, style: BorderStyle.solid)
+//                                      borderRadius: BorderRadius.circular(70)
+                                  ),elevation: 4,
                                   color: Colors.red[800],
                                   child: Container(
-                                    width: 50,
-                                    child: Text(
+                                    height: 30,
+                                    width: 85,
+                                    child: Center(child: Text(
                                       "Log in",
                                       style: TextStyle(color: Colors.white),
                                       textAlign: TextAlign.center,
-                                    ),
+                                    ),)
                                   ),
                                   onPressed: () async {
 //                                    MyNavigator.goToPatient(context);
@@ -294,56 +302,6 @@ class _LoginState extends State<Login> {
                                 Padding(
                                   padding: EdgeInsets.all(0),
                                 ),
-                                Container(
-                                  height: 100,
-                                  width: 300,
-                                  child: Column(
-                                    children: [
-                                      Card(
-                                        color: Color.fromRGBO(0, 40, 125, 100),
-                                        elevation: 7.0,
-                                        child: Row(
-                                          children: [
-                                            Image(
-                                              image: AssetImage('Assets/images/facebook.png'),
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 50.0),
-                                            ),
-                                            Text(
-                                              "Sign in using Facebook",
-                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Card(
-                                        color: Colors.white,
-                                        elevation: 7.0,
-                                        child: Row(
-                                          children: [
-                                            Image(
-                                              image: AssetImage('Assets/images/google.png'),
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 50.0),
-                                            ),
-                                            Text(
-                                              "Sign in using Google",
-                                              style: TextStyle(color: Colors.red[700], fontWeight: FontWeight.bold),
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
 //                                Padding(
 //                                  padding: EdgeInsets.all(0),
 //                                ),
@@ -356,35 +314,14 @@ class _LoginState extends State<Login> {
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                      ),
-                                      Card(
-                                          elevation: 4,
-                                          child: FlatButton(
-                                              onPressed: () async {
-                                                if (userid.isEmpty) {
-                                                  _showDialog1();
-                                                } else {
-                                                  resetPassword(userid);
-
-                                                  _showDialog2();
-                                                }
-                                              },
-                                              child: new Text(
-                                                "Reset Password",
-                                                style:
-                                                    new TextStyle(color: Colors.red[900], fontWeight: FontWeight.bold),
-                                              ))),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 20),
+                                        padding: EdgeInsets.only(left: 87.5),
                                       ),
                                       Card(
                                         elevation: 4,
                                         child: FlatButton(
-                                            onPressed: () => MyNavigator.goToRegister(context),
+                                            onPressed: null,
                                             child: new Text(
-                                              "Register",
+                                              "Work with us",
                                               style: new TextStyle(color: Colors.red[900], fontWeight: FontWeight.bold),
                                             )),
                                       )

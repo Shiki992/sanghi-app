@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:sanghi/Utils/Navigator.dart';
+import 'package:sanghi/Utils/Navigator.dart' as MyNavigator;
+import 'package:country_pickers/country_pickers.dart';
+import 'package:country_pickers/country.dart';
 
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'Utils/Navigator.dart';
@@ -17,7 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formkey = GlobalKey<FormState>();
-  var userid, password;
+  var username, password;
   var radval = "";
   var type, aut;
 
@@ -26,77 +28,8 @@ class _LoginState extends State<Login> {
     super.initState();
 //    aut = Firestore.instance
 //        .collectionGroup(radval)
-//        .where('UserID', isEqualTo: userid)
+//        .where('username', isEqualTo: username)
 //        .snapshots();
-  }
-
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Error"),
-          content: new Text("Invalid Userid or Password"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDialog1() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Error"),
-          content: new Text("Please Enter Userid"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDialog2() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Success"),
-          content: new Text("Please Check your email for further instructions"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<String> signIn(String email, String password) async {
@@ -109,6 +42,101 @@ class _LoginState extends State<Login> {
 //    await _auth.sendPasswordResetEmail(email: email);
 
     return 'Please Check your email';
+  }
+
+  Widget _buildDropdownItem(Country country, double dropdownItemWidth) => SizedBox(
+        width: dropdownItemWidth,
+        child: Row(
+          children: <Widget>[
+            CountryPickerUtils.getDefaultFlagImage(country),
+            SizedBox(
+              width: 8.0,
+            ),
+            Expanded(child: Text("${country.name}")),
+          ],
+        ),
+      );
+
+  Widget _buildDropdownSelectedItemBuilder(Country country, double dropdownItemWidth) => SizedBox(
+      width: dropdownItemWidth,
+      child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: <Widget>[
+              CountryPickerUtils.getDefaultFlagImage(country),
+              SizedBox(
+                width: 8.0,
+              ),
+              Expanded(
+                  child: Text(
+                '+${country.phoneCode}(${country.iso3Code})',
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              )),
+            ],
+          )));
+
+  _buildCountryPickerDropdown(
+      {bool filtered = true,
+      bool sortedByIsoCode = false,
+      bool hasPriorityList = false,
+      bool hasSelectedItemBuilder = false}) {
+    double dropdownButtonWidth = MediaQuery.of(context).size.width * 0.4;
+    double dropdownItemWidth = dropdownButtonWidth - 10;
+    double dropdownSelectedItemWidth = dropdownButtonWidth - 30;
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          width: dropdownButtonWidth,
+          child: CountryPickerDropdown(
+            //show'em (the text fields) you're in charge now
+            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+            //if you have menu items of varying size, itemHeight being null respects
+            //that, IntrinsicHeight under the hood ;).
+            itemHeight: 100,
+            //itemHeight being null and isDense being true doesn't play along
+            //well together. One is trying to limit size and other is saying
+            //limit is the sky, therefore conflicts.
+            //false is default but still keep that in mind.
+            isDense: false,
+            //if you want your dropdown button's selected item UI to be different
+            //than itemBuilder's(dropdown menu item UI), then provide this selectedItemBuilder.
+            selectedItemBuilder: hasSelectedItemBuilder == true
+                ? (Country country) => _buildDropdownSelectedItemBuilder(country, dropdownSelectedItemWidth)
+                : null,
+            itemBuilder: (Country country) => hasSelectedItemBuilder == true
+                ? _buildDropdownItem(country, dropdownItemWidth)
+                : _buildDropdownItem(country, dropdownItemWidth),
+            initialValue: 'IN',
+            itemFilter: filtered ? (c) => ['IN', 'AR', 'DE', 'GB', 'CN'].contains(c.isoCode) : null,
+            //priorityList is shown at the beginning of list
+            priorityList: hasPriorityList
+                ? [
+                    CountryPickerUtils.getCountryByIsoCode('GB'),
+                    CountryPickerUtils.getCountryByIsoCode('CN'),
+                  ]
+                : null,
+            sortComparator: sortedByIsoCode ? (Country a, Country b) => a.isoCode.compareTo(b.isoCode) : null,
+            onValuePicked: (Country country) {
+              print("+${country.phoneCode}");
+            },
+          ),
+        ),
+        SizedBox(
+          width: 8.0,
+        ),
+        Expanded(
+          child: TextFormField(
+            decoration: InputDecoration(
+              fillColor: Colors.red[800],
+              labelText: "Phone",
+              isDense: true,
+              contentPadding: EdgeInsets.zero,
+            ),
+            keyboardType: TextInputType.phone,
+          ),
+        )
+      ],
+    );
   }
 
   @override
@@ -144,7 +172,7 @@ class _LoginState extends State<Login> {
                           width: 350,
                           height: 420,
                           child: Card(
-                            color: Colors.white,
+                            color: Colors.orange[200],
                             elevation: 10,
                             child: Column(
                               children: <Widget>[
@@ -163,8 +191,6 @@ class _LoginState extends State<Login> {
                                   width: 300,
                                   decoration:
                                       BoxDecoration(color: Colors.red[200], borderRadius: BorderRadius.circular(40)),
-//                                  color: Colors.red[200],
-//                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),side: BorderSide(color: Colors.red[800])),
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
@@ -181,65 +207,37 @@ class _LoginState extends State<Login> {
                                                 color: Colors.black,
                                               )),
                                           validator: (value) {
-                                            if(value.isEmpty){return 'Please enter a Name.';}
-                                            else{userid = value;}
-
+                                            if (value.isEmpty) {
+                                              return 'Please enter a Name.';
+                                            } else {
+                                              username = value;
+                                            }
                                           },
                                         ),
                                       ),
-
-//                                      Container(height: 50,decoration: BoxDecoration(), child: TextFormField())
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(10),
+//                                Padding(
+//                                  padding: EdgeInsets.all(10),
+//                                ),
+                                Container(
+//                                  height: 50,
+//                                 width: 300,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+//                                      Text('CountryPickerDropdown (selectedItemBuilder)'),
+                                      _buildCountryPickerDropdown(hasSelectedItemBuilder: true),
+                                      //ListTile(title: _buildCountryPickerDropdown(longerText: true)),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   height: 50,
                                   width: 300,
                                   decoration:
                                       BoxDecoration(color: Colors.red[200], borderRadius: BorderRadius.circular(40)),
-//                                  color: Colors.red[200],
-//                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),side: BorderSide(color: Colors.red[800])),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15),
-                                      ),
-                                      Container(
-                                        width: 265,
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.phone,
-                                          decoration: InputDecoration(
-                                              labelText: 'Phone number',
-                                              labelStyle: TextStyle(color: Colors.red[800]),
-                                              icon: Icon(
-                                                Icons.phone,
-                                                color: Colors.black,
-                                              )),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Please enter a valid phone number.';
-                                            } else {
-                                              password = value;
-                                            }
-                                          },
-                                        ),
-
-//                                      Container(height: 50,decoration: BoxDecoration(), child: TextFormField())
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: 300,
-                                  decoration:
-                                  BoxDecoration(color: Colors.red[200], borderRadius: BorderRadius.circular(40)),
 //                                  color: Colors.red[200],
 //                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),side: BorderSide(color: Colors.red[800])),
                                   child: Row(
@@ -279,24 +277,23 @@ class _LoginState extends State<Login> {
                                   shape: RoundedRectangleBorder(
                                       side: BorderSide(width: 2, color: Colors.white, style: BorderStyle.solid)
 //                                      borderRadius: BorderRadius.circular(70)
-                                  ),elevation: 4,
+                                      ),
+                                  elevation: 4,
                                   color: Colors.red[800],
                                   child: Container(
-                                    height: 30,
-                                    width: 85,
-                                    child: Center(child: Text(
-                                      "Log in",
-                                      style: TextStyle(color: Colors.white),
-                                      textAlign: TextAlign.center,
-                                    ),)
-                                  ),
-                                  onPressed: () async {
-//                                    MyNavigator.goToPatient(context);
-//
-//                                        _auth = await signIn(userid, password);
-//                                    if (_auth == null || aut.isEmpty == true) {
-//                                      _showDialog();
-//                                    } else {}
+                                      height: 30,
+                                      width: 85,
+                                      child: Center(
+                                        child: Text(
+                                          "Log in",
+                                          style: TextStyle(color: Colors.white),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      )),
+                                  onPressed: () {
+                                    type = 0;
+                                    print(type);
+                                    MyNavigator.MyNavigator.goToNumber(context);
                                   },
                                 ),
                                 Padding(
@@ -319,7 +316,11 @@ class _LoginState extends State<Login> {
                                       Card(
                                         elevation: 4,
                                         child: FlatButton(
-                                            onPressed: null,
+                                            onPressed: () {
+                                              type = 1;
+                                              print(type);
+                                              MyNavigator.MyNavigator.goToNumber(context);
+                                            },
                                             child: new Text(
                                               "Work with us",
                                               style: new TextStyle(color: Colors.red[900], fontWeight: FontWeight.bold),

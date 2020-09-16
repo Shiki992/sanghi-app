@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sanghi/Screens/Splash.dart';
 import 'package:sanghi/Screens/Login.dart';
-import 'package:sanghi/Screens/Register.dart';
+import 'package:sanghi/Screens/Pujari/Register.dart';
+import 'package:sanghi/Screens/phone_verification.dart';
 
-
+var type;
 var Routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => Login(),
   "/register": (BuildContext context) => Register(),
+  "/number": (BuildContext context) => PhoneVeri(type:type),
 };
 
 void main() {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sanghi/Utils/Navigator.dart' as MyNavigator;
 import 'package:sanghi/main.dart';
-var type;
-class PhoneVeri extends StatefulWidget {
 
-  PhoneVeri({Key key, @required type}) : super(key: key);
+class PhoneVeri extends StatefulWidget {
+  int type;
+  PhoneVeri({Key key, @required this.type}) : super(key: key);
   @override
   _PhoneVeriState createState() => _PhoneVeriState();
 }
@@ -23,8 +23,10 @@ class _PhoneVeriState extends State<PhoneVeri> {
   }
   @override
   Widget build(BuildContext context) {
-//    widget.type;
+    int tp = type;
+    print(type);
     return Scaffold(
+//      drawer: Drawer(child: ListView(),),
       appBar: AppBar(backgroundColor: Colors.white,elevation: 0,leading: IconButton(icon: Icon(Icons.arrow_back,color: Colors.black,),onPressed: ()=>Navigator.pop(context),),),
       body: Center(
         child: Column(
@@ -63,12 +65,12 @@ class _PhoneVeriState extends State<PhoneVeri> {
                     ),
                   )),
               onPressed: (){
-                print(type);
-                if (type  == 1){
+                print(tp);
+                if (tp  == 1){
                   print("reached type =1");
                   MyNavigator.MyNavigator.goToReg(context);
                 }
-                else{}
+                else{MyNavigator.MyNavigator.goToReg(context);}
               },
             ),
           ],

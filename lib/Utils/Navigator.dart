@@ -10,7 +10,18 @@ class MyNavigator {
     Navigator.pushNamed(context, "/register");
   }
 
-  static void goToNumber(BuildContext context) {
+  static void goToNumber(BuildContext context, int type) {
     Navigator.pushNamed(context, "/number",arguments: type);
+  }
+
+  static void goToDocs1(BuildContext context) {
+    Navigator.pushNamed(context, "/docs1");
+  }
+
+  static void goToDocs2(BuildContext context) {
+    Navigator.pushNamed(context, "/docs2");
+  }
+  static void goToupJobs(BuildContext context) {
+    Navigator.pushReplacementNamed(context, "/ujobs");
   }
 }

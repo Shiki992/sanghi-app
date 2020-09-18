@@ -293,7 +293,7 @@ class _LoginState extends State<Login> {
                                   onPressed: () {
                                     type = 0;
                                     print(type);
-                                    MyNavigator.MyNavigator.goToNumber(context);
+                                    MyNavigator.MyNavigator.goToNumber(context,type);
                                   },
                                 ),
                                 Padding(
@@ -319,7 +319,7 @@ class _LoginState extends State<Login> {
                                             onPressed: () {
                                               type = 1;
                                               print(type);
-                                              MyNavigator.MyNavigator.goToNumber(context);
+                                              MyNavigator.MyNavigator.goToNumber(context,type);
                                             },
                                             child: new Text(
                                               "Work with us",

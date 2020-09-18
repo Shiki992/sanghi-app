@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sanghi/Screens/Pujari/Docs.dart';
+import 'package:sanghi/Screens/Pujari/Home.dart';
 import 'package:sanghi/Screens/Splash.dart';
 import 'package:sanghi/Screens/Login.dart';
 import 'package:sanghi/Screens/Pujari/Register.dart';
@@ -9,6 +11,9 @@ var Routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => Login(),
   "/register": (BuildContext context) => Register(),
   "/number": (BuildContext context) => PhoneVeri(type:type),
+  "/docs1": (BuildContext context) => Docs(),
+  "/docs2": (BuildContext context) => Docs2(),
+  "/ujobs": (BuildContext context) => uJobs(),
 };
 
 void main() {

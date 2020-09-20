@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sanghi/Screens/Pujari/Docs.dart';
 import 'package:sanghi/Screens/Pujari/Home.dart';
+import 'package:sanghi/Screens/Pujari/uJob.dart';
 import 'package:sanghi/Screens/Splash.dart';
 import 'package:sanghi/Screens/Login.dart';
 import 'package:sanghi/Screens/Pujari/Register.dart';
 import 'package:sanghi/Screens/phone_verification.dart';
+
+import 'Screens/Pujari/pJobs.dart';
 
 var type;
 var Routes = <String, WidgetBuilder>{
@@ -14,6 +17,8 @@ var Routes = <String, WidgetBuilder>{
   "/docs1": (BuildContext context) => Docs(),
   "/docs2": (BuildContext context) => Docs2(),
   "/ujobs": (BuildContext context) => uJobs(),
+  "/ujobdet": (BuildContext context) => uJobDet(),
+  "/pjobdet": (BuildContext context) => pJobDet(),
 };
 
 void main() {

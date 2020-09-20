@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:sanghi/Screens/Pujari/pJobs.dart';
 import 'package:sanghi/Screens/Pujari/uJob.dart';
 
 class uJobs extends StatefulWidget {
@@ -9,21 +10,64 @@ class uJobs extends StatefulWidget {
 
 class _uJobsState extends State<uJobs> {
   var page = 0;
-  final tab = <Widget>[
-    Container(child: Center(child:Text('Under Development of Ongoing Jobs',textAlign: TextAlign.center,))),
-    Container(child: Center(child:Text('Under Development of Completed Jobs',textAlign: TextAlign.center,)))
-  ];
+  final tab = <Widget>[uJob(), pJobs()];
+
   void _onItemTapped(int index) {
     setState(() {
       page = index;
       print(page);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      drawer: Drawer(),
+      appBar: AppBar(
+        title: page == 0 ? Text("Upcoming Jobs") : Text("Past Jobs"),
+        centerTitle: true,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.all(10),
+          children: [
+            DrawerHeader(
+                child: Column(
+                  children: <Widget>[],
+                ),
+                decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage('Assets/images/OM.png')), color: Colors.transparent)),
+            Text(
+              "Main Menu",
+              style: new TextStyle(color: Colors.red[800], fontSize: 20.0, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.left,
+            ),
+            ListTile(
+                title: Container(
+              height: 50,
+              width: 25,
+              child: Card(
+                child: Center(
+                    child: Text(
+                  "Jobs",
+                )),
+                elevation: 5,
+              ),
+            ),onTap: () => Navigator.pop(context),),
+            ListTile(
+                title: Container(
+                  height: 50,
+                  width: 25,
+                  child: Card(
+                    child: Center(
+                        child: Text(
+                          "Profile",
+                        )),
+                    elevation: 5,
+                  ),
+                ))
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: page,
         items: [

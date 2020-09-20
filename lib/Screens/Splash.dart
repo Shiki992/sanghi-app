@@ -21,7 +21,7 @@ class _SplashState extends State<Splash> {
       child: Hero(
           tag: 'Logo',
           child: Image(
-              image: AssetImage('Assets/images/om.png'))),
+              image: AssetImage('Assets/images/OM.png'))),
     ));
   }
 }

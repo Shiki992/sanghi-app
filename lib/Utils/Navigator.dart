@@ -24,4 +24,12 @@ class MyNavigator {
   static void goToupJobs(BuildContext context) {
     Navigator.pushReplacementNamed(context, "/ujobs");
   }
+
+  static void goTouJobDet(BuildContext context) {
+    Navigator.pushNamed(context, "/ujobdet");
+  }
+
+  static void goTopJobDet(BuildContext context) {
+    Navigator.pushNamed(context, "/pjobdet");
+  }
 }

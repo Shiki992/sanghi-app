@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sanghi/Utils/Navigator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class uJob extends StatelessWidget {
+class pJobs extends StatelessWidget {
   Widget _buildstate(BuildContext context, DocumentSnapshot document, int count) {
     return ListTile(
         onTap: () async {
-          MyNavigator.goTouJobDet(context);
+          MyNavigator.goTopJobDet(context);
         },
         title: Card(
           elevation: 5,
@@ -39,13 +39,12 @@ class uJob extends StatelessWidget {
           ),
         ));
   }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: Firestore.instance
             .collectionGroup("Jobs")
-            .where("pDocIDs", arrayContains: "5jKCVd46bQ5oCwD0zIcY")
+            .where("pDocIDs", arrayContains: "5jKCVd46bQ5oCwD0zIcY",)
             .where("isDone", isEqualTo: false)
             .snapshots(),
         builder: (context, snapshot) {
@@ -64,11 +63,12 @@ class uJob extends StatelessWidget {
   }
 }
 
-class uJobDet extends StatelessWidget {
+class pJobDet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Job Details"),centerTitle: true,),
+      appBar: AppBar(title: Text("Previous Job Details"),centerTitle: true,),
+      body: ListView(children: [Padding(padding: EdgeInsets.all(30)), Text("Job Type : ")],),
     );
   }
 }

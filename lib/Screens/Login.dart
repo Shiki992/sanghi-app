@@ -162,7 +162,7 @@ class _LoginState extends State<Login> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
-                                image: DecorationImage(image: AssetImage('Assets/images/om.png'))),
+                                image: DecorationImage(image: AssetImage('Assets/images/OM.png'))),
                           ))),
                   Padding(
                     padding: EdgeInsets.all(0),

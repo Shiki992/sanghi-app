@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:sanghi/Screens/Pujari/phone_verification.dart';
 import 'package:sanghi/Utils/Navigator.dart' as MyNavigator;
 import 'package:country_pickers/country_pickers.dart';
 import 'package:country_pickers/country.dart';
@@ -11,6 +12,7 @@ import 'package:country_pickers/country.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
 //
 //final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class Login extends StatefulWidget {
   @override
@@ -293,7 +295,7 @@ class _LoginState extends State<Login> {
                                   onPressed: () {
                                     type = 0;
                                     print(type);
-                                    MyNavigator.MyNavigator.goToNumber(context,type);
+                                    MyNavigator.MyNavigator.goToNumber(context);
                                   },
                                 ),
                                 Padding(
@@ -319,7 +321,7 @@ class _LoginState extends State<Login> {
                                             onPressed: () {
                                               type = 1;
                                               print(type);
-                                              MyNavigator.MyNavigator.goToNumber(context,type);
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>PhoneVeriP()));
                                             },
                                             child: new Text(
                                               "Work with us",

@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sanghi/Utils/Navigator.dart' as MyNavigator;
 import 'package:sanghi/main.dart';
-import 'Login.dart';
-class ScreenArguments {
-  final String title;
-  final String message;
 
-  ScreenArguments(this.title, this.message);
-}
-class PhoneVeri extends StatefulWidget {
-  final int type;
-  PhoneVeri({Key key, @required this.type}) : super(key: key);
+
+class PhoneVeriP extends StatefulWidget {
+
+  PhoneVeriP({Key key}) : super(key: key);
 
   @override
-  _PhoneVeriState createState() => _PhoneVeriState();
+  _PhoneVeriPState createState() => _PhoneVeriPState();
 }
 
-class _PhoneVeriState extends State<PhoneVeri> {
+class _PhoneVeriPState extends State<PhoneVeriP> {
   var _textcontroller = TextEditingController();
 //  _PhoneVeriState(this.type);
   @override
@@ -74,7 +69,7 @@ class _PhoneVeriState extends State<PhoneVeri> {
                     ),
                   )),
               onPressed: () {
-                MyNavigator.MyNavigator.goToPujaList(context);
+                MyNavigator.MyNavigator.goToReg(context);
               }
             ),
           ],

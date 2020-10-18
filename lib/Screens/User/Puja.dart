@@ -1,11 +1,14 @@
+import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sanghi/Utils/Navigator.dart';
-
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:sanghi/Utils/timezonepicker.dart';
 import 'CPuja.dart';
 import 'Ipuja.dart';
+
 var fire = Firestore.instance;
+var puja = '';
 class Puja extends StatefulWidget {
   @override
   _PujaState createState() => _PujaState();
@@ -158,5 +161,4 @@ class _PujaState extends State<Puja> {
     );
   }
 }
-
 

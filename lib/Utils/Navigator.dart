@@ -61,4 +61,7 @@ class MyNavigator {
   static void goToFCon(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, "/FConfirm",ModalRoute.withName('/Festivals'));
   }
+  static void goToPRes(BuildContext context) {
+    Navigator.pushNamed(context, "/PRes");
+  }
 }

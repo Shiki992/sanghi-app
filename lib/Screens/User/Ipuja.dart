@@ -1,7 +1,11 @@
+import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sanghi/Utils/Navigator.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:sanghi/Utils/timezonepicker.dart';
+
+var puja ='';
 
 class IPuja extends StatelessWidget {
 var fire = Firestore.instance;
@@ -9,8 +13,10 @@ var fire = Firestore.instance;
   Widget _buildstate(BuildContext context, DocumentSnapshot document, int count) {
     print(count);
     return ListTile(
-        onTap: () async {
+        onTap: () {
 //          MyNavigator.goTouJobDet(context);
+        puja = document['Service Name'];
+
         },
         title: Card(
           elevation: 5,
@@ -68,3 +74,316 @@ var fire = Firestore.instance;
     );
   }
 }
+
+class PReq extends StatefulWidget {
+  @override
+  _PReqState createState() => _PReqState();
+}
+
+class _PReqState extends State<PReq> {
+  var _formkey = GlobalKey<FormState>();
+  var radval = "";
+  var type;
+
+  String _date = "Not set";
+  var _time = "Not Set";
+  var _timezone;
+
+  void Handler(String val) {
+    setState(() {
+      radval = val;
+      switch (radval) {
+        case "Single":
+          {
+            type = 'Single';
+            break;
+          }
+        case "Pool":
+          {
+            type = 'Pool';
+            break;
+          }
+      }
+    });
+  }
+  void _showDialog1() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Are you sure?"),
+          content: new Text("Puja: ${puja}\n Date: ${_date}\n Time: ${_time}\n Type: ${type}",style: TextStyle(fontSize: 20),),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Edit"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Confirm"),
+              onPressed: () {
+                MyNavigator.goToFCon(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    var hasSelectedItemBuilder;
+    Country country;
+
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(puja),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Form(
+          child: Column(
+            key: _formkey,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(20),
+              ),
+              Container(
+                height: 50,
+                width: 300,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(40)),
+//                                  color: Colors.red[200],
+//                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),side: BorderSide(color: Colors.red[800])),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                    ),
+                    new Radio<String>(value: "Single", groupValue: radval, onChanged: Handler),
+                    new Text("Single",
+                        style: new TextStyle(
+                          color: Colors.red[900],
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                    ),
+                    new Radio<String>(value: "Pool", groupValue: radval, onChanged: Handler),
+                    new Text("Pool", style: new TextStyle(color: Colors.red[900], fontWeight: FontWeight.bold)),
+
+//                                      Container(height: 50,decoration: BoxDecoration(), child: TextFormField())
+                  ],
+                ),
+              ),
+              Padding(padding: EdgeInsets.all(10),),
+              Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 4.0,
+                      onPressed: () {
+                        DatePicker.showDatePicker(context,
+                            theme: DatePickerTheme(
+                              containerHeight: 210.0,
+                            ),
+                            showTitleActions: true,
+                            minTime: DateTime(2000, 1, 1),
+                            maxTime: DateTime(2022, 12, 31), onConfirm: (date) {
+                              print('confirm $date');
+                              _date = '${date.year} - ${date.month} - ${date.day}';
+                              setState(() {});
+                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.date_range,
+                                        size: 18.0,
+                                        color: Colors.red[800],
+                                      ),
+                                      Text(
+                                        " $_date",
+                                        style: TextStyle(
+                                            color: Colors.red[800], fontWeight: FontWeight.bold, fontSize: 18.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Text(
+                              "  Change",
+                              style: TextStyle(color: Colors.red[800], fontWeight: FontWeight.bold, fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      color: Colors.white,
+                    ),
+//                    SizedBox(
+//                        width: dropdownItemWidth,
+//                        child: Padding(
+//                            padding: const EdgeInsets.all(8),
+//                            child: Row(
+//                              children: <Widget>[
+//                                CountryPickerUtils.getDefaultFlagImage(country),
+//                                SizedBox(
+//                                  width: 8.0,
+//                                ),
+//                                Expanded(
+//                                    child: Text(
+//                                      '+${country.phoneCode}(${country.iso3Code})',
+//                                      style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+//                                    )),
+//                              ],
+//                            ))),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 4.0,
+                      onPressed: () {
+                        DatePicker.showTimePicker(context,
+                            theme: DatePickerTheme(
+                              containerHeight: 210.0,
+                            ),
+                            showTitleActions: true, onConfirm: (time) {
+                              print('confirm $time');
+                              _time = '${time.hour} : ${time.minute} : ${time.second}';
+                              setState(() {});
+                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                        setState(() {});
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.access_time,
+                                        size: 18.0,
+                                        color: Colors.red[800],
+                                      ),
+                                      Text(
+                                        " ${_time}",
+                                        style: TextStyle(
+                                            color: Colors.red[800], fontWeight: FontWeight.bold, fontSize: 18.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Text(
+                              "  Change",
+                              style: TextStyle(color: Colors.red[800], fontWeight: FontWeight.bold, fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 4.0,
+                      onPressed: () async {
+                        _timezone=await TimeZonePicker.launch(context);
+                        setState(() {});
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.location_on,
+                                        size: 18.0,
+                                        color: Colors.red[800],
+                                      ),
+                                      Text(
+                                        " ${_timezone}",
+                                        style: TextStyle(
+                                            color: Colors.red[800], fontWeight: FontWeight.bold, fontSize: 18.0),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Text(
+                              "  Change",
+                              style: TextStyle(color: Colors.red[800], fontWeight: FontWeight.bold, fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+
+
+              Padding(padding: EdgeInsets.all(35),),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 2, color: Colors.white, style: BorderStyle.solid)
+//                                      borderRadius: BorderRadius.circular(70)
+                ),
+                elevation: 4,
+                color: Colors.red[800],
+                child: Container(
+                    height: 30,
+                    width: 100,
+                    child: Center(
+                      child: Text(
+                        "Submit Request",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+                onPressed: () {
+                  _showDialog1();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+

@@ -8,6 +8,7 @@ import 'package:sanghi/Screens/Pujari/Register.dart';
 import 'package:sanghi/Screens/User/Astrology.dart';
 import 'package:sanghi/Screens/User/Ceremonies.dart';
 import 'package:sanghi/Screens/User/Festivals.dart';
+import 'package:sanghi/Screens/User/Ipuja.dart';
 import 'package:sanghi/Screens/User/Puja.dart';
 import 'package:sanghi/Screens/phone_verification.dart';
 
@@ -29,6 +30,7 @@ var Routes = <String, WidgetBuilder>{
   "/Festivals" : (BuildContext context) => Festivals(),
   "/FRes" : (BuildContext context) => FReq(),
   "/FConfirm" : (BuildContext context) => FConfirm(),
+  "/PRes" : (BuildContext context) => PReq(),
 
 };
 
